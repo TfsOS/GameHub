@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
+    .login-input {
+      padding: 10px;
+      margin: 5px;
+      width: 200px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .login-button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .login-button:hover {
+      background-color: #218838;
+    }
+    #user-id {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 18px;
+      color: white;
+    }
+    .game-list {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    .game-button {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .game-button:hover {
+      background-color: #0056b3;
+    }
+    .iframe-container {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>GameHub Web</h1>
+    <p>Select a game and login to start playing!</p>
+  </div>
+
+  <span id="user-id">Not logged in</span>
+
+  <!-- Login Form -->
+  <div class="login-form" id="loginForm">
+    <input type="text" id="username" class="login-input" placeholder="Enter Username">
+    <input type="password" id="password" class="login-input" placeholder="Enter Password">
+    <button class="login-button" onclick="login()">Login</button>
+  </div>
+
+  <!-- Game List -->
+  <div class="game-list" id="gameList">
+    <button class="game-button" onclick="selectGame('truckspace2')">Truck Space 2</button>
+    <button class="game-button" onclick="selectGame('warfarearea3')">Warfare Area 3</button>
+  </div>
+
+  <!-- Iframe for Game Display -->
+  <div class="iframe-container" id="iframeContainer">
+    <h2 id="game-title"></h2>
+    <iframe id="gameIframe" src="" frameborder="0"></iframe>
+    <button class="game-button" onclick="closeGame()">Close Game</button>
+  </div>
+
+  <!-- Link to external pass.js -->
+  <script src="https://tfsos.github.io/Script-sample/pass.js"></script>
+
+  <script>
+    // Check if user is already logged in
+    let currentUser = localStorage.getItem('user');
+    if (currentUser) {
+      document.getElementById('user-id').innerText = `Welcome, ${currentUser}`;
+      document.getElementById('loginForm').style.display = 'none'; // Hide login form
+      document.getElementById('gameList').style.display = 'flex'; // Show game selection
+    }
+
+    function login() {
+      // Get the user input values
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Check if the username and password match with any predefined users in pass.js
+      let userFound = false;
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].username === username && users[i].password === password) {
+          userFound = true;
+          // Store user in localStorage
+          localStorage.setItem('user', username);
+          document.getElementById('user-id').innerText = `Welcome, ${username}`;
+          document.getElementById('loginForm').style.display = 'none'; // Hide login form
+          document.getElementById('gameList').style.display = 'flex'; // Show game selection
+          break;
+        }
+      }
+
+      if (!userFound) {
+        alert('Invalid username or password');
+      }
+    }
+
+    // Select Game and Display it in an iframe
+    function selectGame(game) {
+      let gameTitle = '';
+      let gameSrc = '';
+
+      if (game === 'truckspace2') {
+        gameTitle = 'Truck Space 2';
+        gameSrc = 'https://1000webgames.com/games/truckspace2/html5/';
+      } else if (game === 'warfarearea3') {
+        gameTitle = 'Warfare Area 3';
+        gameSrc = 'https://1000webgames.com/games/warfarearea3/html5/';
+      }
+
+      document.getElementById('game-title').innerText = gameTitle;
+      document.getElementById('gameIframe').src = gameSrc;
+      document.getElementById('gameList').style.display = 'none'; // Hide game selection
+      document.getElementById('iframeContainer').style.display = 'block'; // Show iframe container
+    }
+
+    // Close the game and go back to the game list
+    function closeGame() {
+      document.getElementById('iframeContainer').style.display = 'none'; // Hide iframe container
+      document.getElementById('gameList').style.display = 'flex'; // Show game selection
+    }
+  </script>
+
+</body>
+  </html>
+  
