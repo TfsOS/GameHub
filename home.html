@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login/Register To GameHub</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px gray; width: 300px; }
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box;
+    }
+    button { width: 100%; padding: 10px; margin: 8px 0; }
+  body {
+  background-image: url('Background1.jpg');
+  background-size: cover;      /* Scale the image to cover the entire background */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;/* Prevent the image from repeating */
+}
+  </style>
+</head>
+<body>
+  <div class="container" style="background-image: url('Background3.jpg');
+  background-size: cover;      /* Scale the image to cover the entire background */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;/* Prevent the image from repeating */
+">
+    <h2>Login / Register To GameHub </h2>
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="login()">Login and play</button>
+    <button onclick="register()">Register and Play</button>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const saved = JSON.parse(localStorage.getItem("user"));
+      if (saved && saved.username === username && saved.password === password) {
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid login");
+      }
+    }
+
+    function register() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      localStorage.setItem("user", JSON.stringify({ username, password }));
+      alert("Registered successfully!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

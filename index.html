@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: white;
+    }
+
+    .header {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .game-button {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .game-button:hover {
+      background-color: #0056b3;
+    }
+
+    .iframe-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9998;
+      display: none;
+      background-color: black;
+    }
+
+    .iframe-fullscreen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #222;
+      padding: 10px;
+      text-align: center;
+      z-index: 9999;
+    }
+
+    .footer-menu-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .footer-menu-popup {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      border-radius: 10px;
+      padding: 15px;
+      display: none;
+      z-index: 9999;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 10px #000;
+    }
+
+    .footer-menu-popup input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .footer-menu-popup button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .footer-menu-popup .back-btn {
+      background-color: red;
+    }
+  
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>GameHub</h1>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;" id="gameList">
+    <button class="game-button" onclick="openGame('https://tfsos.github.io/2dcargame/')">Dodge and Race 2.0.1</button>
+    <button class="game-button" onclick="openGame('https://tfsos.github.io/Santa-Run/')">Santa Run</button>
+    <button class="game-button" onclick="openGame('https://tfsos.github.io/BLOCKSCAPE/')">Blockscape</button>
+  </div>
+
+  <div class="iframe-fullscreen" id="iframeContainer">
+    <button class="close-button" onclick="closeGame()">Back</button>
+    <iframe id="gameFrame"></iframe>
+  </div>
+
+  <!-- Footer Bar -->
+  <div class="footer-bar">
+    <button class="footer-menu-btn" onclick="toggleFooterMenu()">☰</button>
+  </div>
+
+  <!-- Footer Menu Popup -->
+  <div class="footer-menu-popup" id="footerMenu">
+    <input type="text" id="searchBox" placeholder="Search games..." />
+    <button onclick="searchGames()">Search</button>
+    <button class="back-btn" onclick="toggleFooterMenu()">Back</button>
+    <p></p>
+  </div>
+
+  <script>
+    function toggleFooterMenu() {
+      const menu = document.getElementById('footerMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function searchGames() {
+      const query = document.getElementById('searchBox').value.toLowerCase();
+      const gameButtons = document.querySelectorAll('.game-button');
+      gameButtons.forEach(btn => {
+        const gameName = btn.textContent.toLowerCase();
+        btn.style.display = gameName.includes(query) ? 'inline-block' : 'none';
+      });
+    }
+
+    function openGame(url) {
+      const iframe = document.getElementById('gameFrame');
+      iframe.src = url;
+      document.getElementById('iframeContainer').style.display = 'block';
+    }
+
+    function closeGame() {
+      const iframe = document.getElementById('gameFrame');
+      iframe.src = '';
+      document.getElementById('iframeContainer').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
